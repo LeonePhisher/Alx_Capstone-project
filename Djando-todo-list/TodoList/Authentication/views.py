@@ -41,10 +41,17 @@ def register(request):
 
         if user_data_has_error:          
             return redirect('register')
-         
+         user=User.objects.create_user(
+            username=username,
+            password = password,
+            first_name = first_name,
+            last_name = last_name
+        )
+        user.save()
     return render(request,'Authentication/register.html')
     
          
          
 def login_user(request):
      return render(request,'Authentication/login.html')
+
