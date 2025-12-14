@@ -1,67 +1,115 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Todo List | Register</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  </head>
-  <body>
-    <div class="center">
-      <h1>Register</h1>
-          
-      {% if messages %}
-        {% for message in messages %}
-          {% if message.tags == 'error' %}
-            <center><h4 style="color: firebrick;">{{message}}</h4></center>
-          {% else %}
-            <center><h4 style="color: dodgerblue;">{{message}}</h4></center>
-          {% endif %}
-        {% endfor %}
-      {% endif %}
-      <form method="POST">
-        {% csrf_token %}
-        <div class="txt_field">
-            <input type="text" name="first_name" required>
-            <span></span>
-            <label>First Name</label>
-          </div>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up</title>
 
-          <div class="txt_field">
-            <input type="text" name="last_name" required>
-            <span></span>
-            <label>Last Name</label>
-          </div>
+<style>
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
 
-        <div class="txt_field">
-          <input type="text" name="username" required>
-          <span></span>
-          <label>Username</label>
-        </div>
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle at top, #0f2027, #000);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-        <div class="txt_field">
-            <input type="email" name="email" required>
-            <span></span>
-            <label>Email</label>
-          </div>
+.container {
+  width: 800px;
+  height: 650px;
+  display: flex;
+  border-radius: 20px;
+  background: rgba(10, 20, 30, 0.9);
+  box-shadow: 0 0 25px #00f7ff;
+  overflow: hidden;
+}
 
-        <div class="txt_field">
-          <input type="password" name="password" required>
-          <span></span>
-          <label>Password</label>
-        </div>
+.form-box {
+  width: 55%;
+  padding: 50px;
+  color: #fff;
+}
 
-        <div class="txt_field">
-          <input type="password" name="confirm_password" required>
-          <span></span>
-          <label>Confirm Password</label>
-        </div>
-        <input type="submit" value="Register">
-        <div class="signup_link">
-          Already have an account? <a href="{% url 'login' %}">Login</a>
-        </div>
-      </form>
+.form-box input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 15px;
+  background: transparent;
+  border: 1px solid #00f7ff;
+  border-radius: 8px;
+  color: white;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(90deg, #00f7ff, #00c6ff);
+  border: none;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.link a {
+  color: #00f7ff;
+  text-decoration: none;
+}
+
+.welcome {
+  width: 45%;
+  background: linear-gradient(135deg, #007bff, #00f7ff);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="form-box">
+    <h2>Create Account</h2>
+
+    {% if messages %}
+      {% for message in messages %}
+        <center>
+          <h4 style="color: {% if message.tags == 'error' %}firebrick{% else %}dodgerblue{% endif %};">
+            {{ message }}
+          </h4>
+        </center>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST" action="{% url 'register' %}">
+      {% csrf_token %}
+      <input type="text" name="first_name" placeholder="First Name" required>
+      <input type="text" name="last_name" placeholder="Last Name" required>
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+      <button type="submit">Sign Up</button>
+    </form>
+
+    <div class="link">
+      <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
     </div>
+  </div>
 
-  </body>
+  <div class="welcome">
+    JOIN<br>US!
+  </div>
+</div>
+
+</body>
 </html>
