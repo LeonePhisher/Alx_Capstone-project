@@ -1,0 +1,1 @@
+web gunicorn Djando-todo-list.wsgi:application --log-file -

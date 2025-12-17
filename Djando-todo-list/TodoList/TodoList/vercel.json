@@ -1,0 +1,18 @@
+{
+  "builds": [
+    {
+      "src": "TodoList/wsgi.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/staticfiles/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "TodoList/wsgi.py"
+    }
+  ]
+}

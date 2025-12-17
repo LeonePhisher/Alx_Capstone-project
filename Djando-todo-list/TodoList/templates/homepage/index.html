@@ -128,13 +128,13 @@ body {
 
 .item-row {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: flex-start;
   padding: 16px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(0, 247, 255, 0.3);
   border-radius: 14px;
   transition: 0.3s;
+  flex-direction: column;
 }
 
 .item-row:hover {
@@ -148,7 +148,7 @@ body {
 
 /* Small Buttons */
 .btn-sm {
-  padding: 8px 14px;
+  padding: 6px 12px;
   font-size: 13px;
   border-radius: 8px;
 }
@@ -169,14 +169,68 @@ body {
 }
 
 .task-text {
-  flex: 1;
   font-size: 15px;
+  margin-bottom: 8px;
+}
+
+/* Task card layout */
+.task-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Actions row */
+.task-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Left buttons */
+.left-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Share form */
+.share-form {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.share-form input {
+  width: 120px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid #00f7ff;
+  background: transparent;
+  color: #fff;
+  font-size: 13px;
+}
+
+.share-form input::placeholder {
+  color: #aaa;
+}
+
+/* Shared label */
+.shared-label {
+  font-size: 12px;
+  color: #00f7ff;
+  opacity: 0.8;
 }
 
 /* Mobile */
 @media (max-width: 640px) {
   .task-form {
     flex-direction: column;
+  }
+  .task-actions {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 </style>
@@ -186,11 +240,26 @@ body {
 
 <div class="center-column">
 
-  <h4 class="username">John Doe</h4>
-  <h5 class="success-title">✓ Success Message</h5>
+  <h4 class="username">
+  {{ request.user.get_full_name|default:request.user.username }}
+</h4>
 
-  <form action="" class="task-form">
-    <input type="text" placeholder="Add a new task..." name="add_task" required>
+  <h5 class="success-title">
+    {% if messages %}
+      {% for message in messages %}
+        <center>
+          <h4 style="color: {% if message.tags == 'error' %}firebrick{% else %}dodgerblue{% endif %};">
+            {{ message }}
+          </h4>
+        </center>
+      {% endfor %}
+    {% endif %}
+  </h5>
+
+  <!-- Add Task Form -->
+  <form action="" class="task-form" method="POST">
+    {% csrf_token %}
+    <input type="text" placeholder="Add a new task..." name="task" required>
     <input class="btn btn-primary" value="Add Task" type="submit">
   </form>
 
@@ -198,28 +267,47 @@ body {
     <input class="btn logout-btn" type="button" value="Logout">
   </a>
 
-  <p class="task-stats">📊 Finished Tasks: 10 | Unfinished Tasks: 4</p>
+  <p class="task-stats">📊 Finished Tasks: {{ finished_tasks }} | Unfinished Tasks: {{ unfinished_tasks }}</p>
 
+  <!-- Todo List -->
   <div class="todo-list">
+    {% for task in tasks %}
+    <div class="item-row {% if task.is_completed %}completed{% endif %}">
 
-    <div class="item-row">
-      <a class="btn btn-sm btn-info" href="#">Update</a>
-      <a class="btn btn-sm btn-danger" href="#">Delete</a>
-      <span class="task-text">Read a book</span>
+      <div class="task-card">
+
+        <!-- Task Text -->
+        <div class="task-text">
+          {% if task.is_completed %}
+            <strike>{{ task.content }}</strike>
+          {% else %}
+            {{ task.content }}
+          {% endif %}
+        </div>
+
+        <!-- Actions -->
+        <div class="task-actions">
+
+          <div class="left-actions">
+            <a href="{% url 'update_task_status' task.id %}" class="btn btn-sm btn-info">Update</a>
+            <a href="{% url 'delete_task' task.id %}" class="btn btn-sm btn-danger">Delete</a>
+          </div>
+
+          {% if task.user == request.user %}
+          <form method="POST" action="{% url 'share_task' task.id %}" class="share-form">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username" required>
+            <button type="submit" class="btn btn-sm btn-info">Share</button>
+          </form>
+          {% else %}
+            <span class="shared-label">🔗 Shared</span>
+          {% endif %}
+
+        </div>
+
+      </div>
     </div>
-
-    <div class="item-row">
-      <a class="btn btn-sm btn-info" href="#">Update</a>
-      <a class="btn btn-sm btn-danger" href="#">Delete</a>
-      <span class="task-text">Make a youtube video</span>
-    </div>
-
-    <div class="item-row completed">
-      <a class="btn btn-sm btn-info" href="#">Update</a>
-      <a class="btn btn-sm btn-danger" href="#">Delete</a>
-      <span class="task-text"><strike>Wash dishes</strike></span>
-    </div>
-
+    {% endfor %}
   </div>
 
 </div>
