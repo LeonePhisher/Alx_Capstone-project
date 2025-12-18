@@ -35,7 +35,11 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
 
-
+How to Run the Project
+1.pip install django
+2.python manage.py makemigrations
+3.python manage.py migrate
+4.python manage.py runserver
 
 Application URLs
 Page	URL
