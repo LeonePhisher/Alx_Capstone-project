@@ -40,25 +40,24 @@ The objectives of this project are to:
 ---
 
 ## Configuration Settings
-
 python
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
 
-**Technologies Used**
+##Technologies Used
 Python
 Django Framework
 SQLite Database
 HTML & CSS
 
-How to Run the Project
+##How to Run the Project
 1.pip install django
 2.python manage.py makemigrations
 3.python manage.py migrate
 4.python manage.py runserver
 
-Application URLs
+##Application URLs
 Page	URL
 Login	/
 Register	/register/
