@@ -11,12 +11,15 @@ The objectives of this project are to:
 
 ---
 
-## Functional Requirements
+## Functionalities
 
 - Users can create an account (register)
-- Users can log in using valid credentials
+- Users can log in using their valid credentials
 - Users can log out of the system
 - Users can also share tasks among them selfs
+ - Users can also delete tasks
+- Users can also delete tasks
+- Users can also mark tasks as completed or not
 - The login page is the default landing page
 - Only authenticated users can access the homepage
 - Error and success messages are displayed to users
@@ -61,6 +64,7 @@ Login	/
 Register	/register/
 Homepage	/home/
 Logout	/logout/
+
 
 
 
