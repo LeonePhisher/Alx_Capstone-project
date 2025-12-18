@@ -45,11 +45,15 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
 
+---
+
 ##Technologies Used
 Python
 Django Framework
 SQLite Database
 HTML & CSS
+
+---
 
 ##How to Run the Project
 1.pip install django
@@ -57,6 +61,7 @@ HTML & CSS
 3.python manage.py migrate
 4.python manage.py runserver
 
+---
 ##Application URLs
 Page	URL
 Login	/
@@ -64,6 +69,7 @@ Register	/register/
 Homepage	/home/
 Logout	/logout/
 
+---
 
 
 
